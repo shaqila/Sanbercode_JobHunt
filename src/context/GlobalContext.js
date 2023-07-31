@@ -50,7 +50,6 @@ export const GlobalProvider = (props) => {
       axios
         .get("https://dev-example.sanbercloud.com/api/job-vacancy")
         .then((res) => {
-          // console.log(...res.data.data);
           setDataJob([...res.data.data]);
         })
         .catch((error) => {});
@@ -155,9 +154,7 @@ export const GlobalProvider = (props) => {
 
   const handleChangeSearch = (event) => setSearch(event.target.value);
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-
+  const handleSearch = () => {
     console.log(search);
 
     let fetchDataJob = async () => {
@@ -210,6 +207,12 @@ export const GlobalProvider = (props) => {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   //Initial Function & State
   let state = {
     dataJob,
@@ -233,6 +236,7 @@ export const GlobalProvider = (props) => {
     handleDelete,
     handleChangeSearch,
     handleSearch,
+    handleKeyPress,
   };
 
   return (

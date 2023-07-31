@@ -12,6 +12,8 @@ import Cookies from "js-cookie";
 import NotFound from "../pages/NotFound";
 import AccountProfile from "../pages/dashboard/AccountProfile";
 import Detail from "../pages/Detail";
+import Vacancy from "../pages/Vacancy";
+import ScrollToTop from "../component/ScrollToTop";
 
 const RouteComponent = () => {
   const LoginRoute = (props) => {
@@ -32,6 +34,7 @@ const RouteComponent = () => {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <GlobalProvider>
           <Routes>
             <Route
@@ -41,7 +44,15 @@ const RouteComponent = () => {
                   <Home />
                 </LayoutLanding>
               }
-            ></Route>
+            />
+            <Route
+              path="/job-vacancy"
+              element={
+                <LayoutLanding>
+                  <Vacancy />
+                </LayoutLanding>
+              }
+            />
 
             <Route
               path="/detail/:id"
@@ -50,7 +61,7 @@ const RouteComponent = () => {
                   <Detail />
                 </LayoutLanding>
               }
-            ></Route>
+            />
             <Route
               path="/login"
               element={
@@ -58,7 +69,7 @@ const RouteComponent = () => {
                   <Login />
                 </LoginRoute>
               }
-            ></Route>
+            />
             <Route
               path="/dashboard"
               element={
@@ -68,7 +79,7 @@ const RouteComponent = () => {
                   </LayoutDashboard>
                 </DashboardRoute>
               }
-            ></Route>
+            />
             <Route
               path="/dashboard/list-job-vacancy"
               element={
@@ -78,7 +89,7 @@ const RouteComponent = () => {
                   </LayoutDashboard>
                 </DashboardRoute>
               }
-            ></Route>
+            />
             <Route
               path="/dashboard/list-job-vacancy/form"
               element={
@@ -88,7 +99,7 @@ const RouteComponent = () => {
                   </LayoutDashboard>
                 </DashboardRoute>
               }
-            ></Route>
+            />
             <Route
               path="/dashboard/list-job-vacancy/edit/:IdData"
               element={
@@ -98,7 +109,7 @@ const RouteComponent = () => {
                   </LayoutDashboard>
                 </DashboardRoute>
               }
-            ></Route>
+            />
             <Route
               path="/dashboard/profile"
               element={
@@ -108,7 +119,7 @@ const RouteComponent = () => {
                   </LayoutDashboard>
                 </DashboardRoute>
               }
-            ></Route>
+            />
             <Route path="/err" element={<NotFound />}></Route>
           </Routes>
         </GlobalProvider>

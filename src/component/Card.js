@@ -1,16 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../context/GlobalContext";
 
-const Card = () => {
-  const { state, handleFunction } = useContext(GlobalContext);
+const Card = ({ jobs }) => {
+  const { state } = useContext(GlobalContext);
   const { dataJob, FormatRupiah } = state;
-  const { handleText } = handleFunction;
 
+  // Render only the specified number of jobs
+  const jobsToRender = dataJob ? dataJob.slice(0, jobs) : [];
   return (
     <>
       {dataJob === null && (
-        <div role="status">
+        <div role="status" className="mx-auto my-12">
           <svg
             aria-hidden="true"
             className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -31,63 +32,79 @@ const Card = () => {
         </div>
       )}
       {dataJob !== null &&
-        dataJob.map((res) => {
+        jobsToRender.map((res) => {
           return (
             <Link
               to={`/detail/${res.id}`}
               key={res.id}
-              className="w-full max-w-xs p-6 overflow-hidden bg-white shadow-lg rounded-xl dark:bg-gray-800"
+              className="w-full max-w-xs p-6 min-h-full overflow-hidden shadow-lg rounded-xl dark:bg-gray-800"
             >
-              <div className="flex flex-col items-center justify-between md:flex-row">
-                <div className="flex items-center justify-start flex-grow w-full">
-                  <div className="relative block">
-                    <img
-                      alt="profil"
-                      src={res.company_image_url}
-                      className="mx-auto object-cover rounded-full h-10 w-10 "
-                    />
+              <div className="h-full flex flex-col">
+                <div className="flex flex-col items-center justify-between md:flex-row">
+                  <div className="flex items-center justify-start w-full">
+                    <div className=" block">
+                      <img
+                        alt="profil"
+                        src={res.company_image_url}
+                        className="mx-auto object-cover rounded-full h-10 w-10 "
+                      />
+                    </div>
+                    <div className="flex flex-col items-start ml-4">
+                      <div className="max-w-xs overflow-hidden">
+                        <span className="font-semibold text-gray-700 dark:text-white overflow-hidden">
+                          {res.company_name.length > 15
+                            ? `${res.company_name.substring(0, 15)}...`
+                            : res.company_name}
+                        </span>
+                      </div>
+                      <span className="text-sm font-light text-gray-500 dark:text-gray-300">
+                        {res.company_city.length > 15
+                          ? `${res.company_city.substring(0, 15)}...`
+                          : res.company_city}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex flex-col items-start ml-4">
-                    <span className="font-semibold text-gray-700 dark:text-white">
-                      {res.company_name}
-                    </span>
-                    <span className="text-sm font-light text-gray-500 dark:text-gray-300">
-                      {res.company_city}
+                  <div className="flex-none hidden md:block ">
+                    <span className="w-full px-3 py-1 text-sm text-white bg-blue-500 rounded-full capitalize">
+                      {res.job_type.length > 8
+                        ? `${res.job_type.substring(0, 8)}`
+                        : res.job_type}
                     </span>
                   </div>
                 </div>
-                <div className="flex-none hidden md:block ">
-                  <span className="w-full px-3 py-1 text-sm text-white bg-blue-500 rounded-full capitalize">
-                    {res.job_type}
-                  </span>
-                </div>
-              </div>
-              <p className="mt-4 mb-2 text-lg font-semibold text-gray-800 dark:text-white">
-                {res.title}
-              </p>
-              <p className="grow text-sm font-normal text-gray-400">
-                {handleText(res.job_description)}
-              </p>
-              <div className="flex items-center justify-between p-2 my-6 bg-blue-100 rounded">
-                <div className="flex items-start justify-between w-full">
-                  <p className="flex-grow w-full text-2xl text-gray-700">
-                    <span className="font-light text-gray-400 text-md">Rp</span>
-                    {FormatRupiah(res.salary_min + "")}
-                    <span className="text-sm font-light text-gray-400">
-                      /Mo
+                <p className="mt-4 mb-2 text-lg capitalize font-semibold text-gray-800 dark:text-white">
+                  {res.title}
+                </p>
+                <p className="grow text-sm font-normal text-gray-400">
+                  {res.job_description.length > 160
+                    ? `${res.job_description.substring(0, 160)}...`
+                    : res.job_description + "."}
+                </p>
+                <div className="flex items-center justify-between p-2 my-6 bg-blue-100 rounded">
+                  <div className="flex items-start justify-between w-full">
+                    <p className="flex-grow w-full text-2xl text-gray-700">
+                      <span className="font-light text-gray-400 text-md">
+                        Rp
+                      </span>
+                      {FormatRupiah(res.salary_min + "")}
+                      <span className="text-sm font-light text-gray-400">
+                        /Mo
+                      </span>
+                    </p>
+                    <span className="flex-none capitalize px-3 py-1 text-sm text-indigo-500 border border-indigo-500 rounded-full">
+                      {res.job_tenure.length > 10
+                        ? `${res.job_tenure.substring(0, 10)}`
+                        : res.job_tenure}
                     </span>
-                  </p>
-                  <span className="flex-none capitalize px-3 py-1 text-sm text-indigo-500 border border-indigo-500 rounded-full">
-                    {res.job_tenure}
-                  </span>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  className="py-2 px-4  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+                >
+                  Apply for this Job
+                </button>
               </div>
-              <button
-                type="button"
-                className="py-2 px-4  bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-              >
-                Apply for this Job
-              </button>
             </Link>
           );
         })}
