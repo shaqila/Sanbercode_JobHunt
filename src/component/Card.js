@@ -52,13 +52,13 @@ const Card = ({ jobs }) => {
                     <div className="flex flex-col items-start ml-4">
                       <div className="max-w-xs overflow-hidden">
                         <span className="font-semibold text-gray-700 dark:text-white overflow-hidden">
-                          {res.company_name.length > 15
+                          {res.company_name && res.company_name.length > 15
                             ? `${res.company_name.substring(0, 15)}...`
                             : res.company_name}
                         </span>
                       </div>
                       <span className="text-sm font-light text-gray-500 dark:text-gray-300">
-                        {res.company_city.length > 15
+                        {res.company_city && res.company_city.length > 15
                           ? `${res.company_city.substring(0, 15)}...`
                           : res.company_city}
                       </span>
@@ -66,7 +66,7 @@ const Card = ({ jobs }) => {
                   </div>
                   <div className="flex-none hidden md:block ">
                     <span className="w-full px-3 py-1 text-sm text-white bg-blue-500 rounded-full capitalize">
-                      {res.job_type.length > 8
+                      {res.job_type && res.job_type.length > 8
                         ? `${res.job_type.substring(0, 8)}`
                         : res.job_type}
                     </span>
@@ -76,7 +76,7 @@ const Card = ({ jobs }) => {
                   {res.title}
                 </p>
                 <p className="grow text-sm font-normal text-gray-400">
-                  {res.job_description.length > 160
+                  {res.job_description && res.job_description.length > 160
                     ? `${res.job_description.substring(0, 160)}...`
                     : res.job_description + "."}
                 </p>
@@ -92,7 +92,7 @@ const Card = ({ jobs }) => {
                       </span>
                     </p>
                     <span className="flex-none capitalize px-3 py-1 text-sm text-indigo-500 border border-indigo-500 rounded-full">
-                      {res.job_tenure.length > 10
+                      {res.job_tenure && res.job_tenure.length > 10
                         ? `${res.job_tenure.substring(0, 10)}`
                         : res.job_tenure}
                     </span>
